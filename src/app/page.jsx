@@ -6,6 +6,7 @@ import { useState } from "react";
 export default function Home() {
   const [todos, setTodos] = useState([{ id: "123", text: "shopping" }]);
   const [inputText, setInputText] = useState("");
+  const [editingId, setEditingId] = useState(null);
 
   const addToDo = () => {
     setTodos([...todos, { id: Date.now(), text: inputText }]);
@@ -19,10 +20,16 @@ export default function Home() {
     console.log("todos are", todos);
   };
 
+  const startEditing = (id, text) => {
+    setEditingId(id);
+    setInputText(text);
+  };
+
   return (
     <div>
       <h1>to do app</h1>
       <input type="text" placeholder="search tods" />
+      {editingId}? <button>Update</button>
       <div>
         <input
           type="text"
@@ -40,7 +47,9 @@ export default function Home() {
             <li key={todo.id}>
               {todo.text}
               <div>
-                <button>Edit</button>
+                <button onClick={() => startEditing(todo.id, todo.text)}>
+                  Edit
+                </button>
                 <button onClick={() => removetodo(todo.id)}>Remove</button>
               </div>
             </li>
